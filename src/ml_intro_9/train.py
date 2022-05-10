@@ -50,6 +50,18 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
+    "--use-PCA",
+    default=False,
+    type=bool,
+    show_default=True,
+)
+@click.option(
+    "--use-ICA",
+    default=False,
+    type=bool,
+    show_default=True,
+)
+@click.option(
     "--n_neighbors",
     default=5,
     type=int,
@@ -67,6 +79,8 @@ def train(
     random_state: int,
     folds: int,
     use_scaler: bool,
+    use_ica: bool,
+    use_pca: bool,
     model: str,
     n_neighbors: int,
     n_estimators: int
@@ -83,8 +97,7 @@ def train(
 
     if model == 'RandomForest':
         model_params = {
-            'n_estimators': n_estimators,
-            'random state': random_state
+            'n_estimators': n_estimators
         }
 
     cv = StratifiedKFold(n_splits=folds)
@@ -92,13 +105,22 @@ def train(
     metrics = ['accuracy', 'f1_macro', 'f1_micro']
 
     with mlflow.start_run():
-        pipeline = create_pipeline(use_scaler, model, model_params)
+        pipeline = create_pipeline(
+            random_state=random_state,
+            use_scaler=use_scaler,
+            model=model,
+            use_PCA=use_pca,
+            use_ICA=use_ica,
+            model_params=model_params
+        )
         results = cross_validate(pipeline, x, y, cv=cv, scoring=metrics)
         mlflow.log_param("use_scaler", use_scaler)
+        mlflow.log_param("use_PCA", use_pca)
+        mlflow.log_param("use_ICA", use_ica)
+        mlflow.log_param('random state', random_state)
         mlflow.log_param("model", model)
         for key, value in model_params.items():
             mlflow.log_param(key, value)
-        mlflow.log_param("model", model)
         for key in metrics:
             value = np.mean(results[f'test_{key}'])
             mlflow.log_param(key, value)
