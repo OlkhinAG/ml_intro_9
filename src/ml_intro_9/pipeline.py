@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 
 
 def create_pipeline(
-    use_scaler: bool, model: str, random_state: int, model_params
+    use_scaler: bool, model: str, model_params
 ) -> Pipeline:
     pipeline_steps = []
     if use_scaler:
@@ -16,7 +16,7 @@ def create_pipeline(
             (
                 "classifier",
                 KNeighborsClassifier(
-                    random_state=random_state, **model_params
+                   **model_params
                 ),
             )
         )
@@ -26,7 +26,7 @@ def create_pipeline(
             (
                 "classifier",
                 RandomForestClassifier(
-                    random_state=random_state, **model_params
+                    **model_params
                 ),
             )
         )

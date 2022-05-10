@@ -23,3 +23,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 eda = "ml_intro_9.eda:main"
+train = "ml_intro_9.train:train"
