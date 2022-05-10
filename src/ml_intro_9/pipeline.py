@@ -15,7 +15,7 @@ def create_pipeline(
         pipeline_steps.append(("PCA", PCA(n_components=0.95, svd_solver='full', random_state=random_state)))
 
     if use_ICA:
-        pipeline_steps.append(("ICA", FastICA(n_components=5, random_state=random_state)))
+        pipeline_steps.append(("ICA", FastICA(n_components=15, random_state=random_state)))
 
     if model == 'KNeighbors':
         pipeline_steps.append(
