@@ -45,3 +45,7 @@ poetry run tune
 Created by `poetry new --src ml_intro_9` command
 
 using `poetry add <module name>` to install dependency
+
+# Sorry
+I'm giving up, pytest dont work by unknown reason
+![Results](screenshots/giveup.JPG)
