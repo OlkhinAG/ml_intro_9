@@ -9,7 +9,7 @@ def runner() -> CliRunner:
     return CliRunner()
 
 
-def test_error_for_invalid_test_split_ratio(
+def test_error_for_invalid_model(
     runner: CliRunner
 ) -> None:
     """It fails when test split ratio is greater than 1."""
@@ -22,3 +22,4 @@ def test_error_for_invalid_test_split_ratio(
     )
     assert result.exit_code == 2
     assert "Invalid value for '--model'" in result.output
+
